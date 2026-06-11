@@ -1,0 +1,74 @@
+
+# Corun
+
+Corun is an extremely simple Bash script designed to run minimal container. It
+does not use OCI images, Docker, Podman, or any other container "Management"
+software. Instead, it simply launches a BusyBox executable via BubbleWrap.
+
+The command:
+
+~~~
+./corun.sh <cmd> [arg1] ... [argN]
+~~~
+
+will automatically downloads busybox and bwrap on the first run. It then
+executes your command within the isolated environment. By default, you can run
+any standard BusyBox tool as the `<cmd>`.
+
+The container root filesystem is stored in the `cache/container/` directory
+relative to the script.
+
+# Better environment
+
+At the end of the script, there is a section for commands to be executed before
+each run. This includes an example that downloads a minimal Alpine system
+during the first boot. If you enable this code, you can install packages
+directly from the Alpine repositories:
+
+~~~
+./corun.sh apk add my-needed-app
+~~~
+
+# Command option
+
+Set IMAGE_MODE to bootstrap if you want use a fallback image extracted from
+Alpine linux packages instead of the one downaloaded by the `corun` GitHub
+repository. This is provided mainly for bootstrapping (See the section about
+the image compilation)
+
+Set CORUN_X environment to yes to enable X server applications.
+
+Put in the CORUN_ATTACH environment variable a pid of a container process to
+attach to a previously launched container. The pid must be the one seen in the
+host, not in the contaier itself. When a container starts it reports a suitable
+pid, refering to a process lasting until the end of that session.
+
+Set CORUN_INIT to yes to let the script run busybox init as pid 1, then run
+your app in that environment. This let you to write long running script that
+spawn complex proces tree without the risk of accumulate defunct processes.
+
+Set CORUN_KEEP_CHILD to yes to avoid the whole process subtree to be killed
+when the main shell exit (useful with tmux, abduco, etc).
+
+# Compiling the Image
+
+By default, the busybox and bwrap binaries are downloaded from the project's
+GitHub release page. Such image can be builtusing `make_container_binary.sh`,
+which fetches the latest versions of all the needed software:
+
+~~~
+./corun.sh sh ./make_container_binary.sh
+~~~
+
+Since corun.sh normally attempts to download binaries from GitHub, you may need
+an alternative if the GitHub releases are unavailable or broken. You can use
+the "bootstrap" mode to set up a compatible image using Alpine Linux packages:
+
+~~~
+IMAGE_MODE="bootstrap" ./corun.sh sh ./make_container_binary.sh
+~~~
+
+In any case the image will be generated in `cache/build/container`, if you
+rename it to `cache/container` you will be able to run the container with the
+software just built.
+
