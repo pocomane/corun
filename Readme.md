@@ -18,6 +18,13 @@ any standard BusyBox tool as the `<cmd>`.
 The container root filesystem is stored in the `cache/container/` directory
 relative to the script.
 
+If you do not have `corun.sh` locally, you can download and run it with the
+one-liner:
+
+~~~
+curl -o - https://raw.githubusercontent.com/pocomane/corun/refs/heads/main/corun.sh | sh
+~~~
+
 # Better environment
 
 At the end of the script, there is a section for commands to be executed before
@@ -53,7 +60,7 @@ when the main shell exit (useful with tmux, abduco, etc).
 # Compiling the Image
 
 By default, the busybox and bwrap binaries are downloaded from the project's
-GitHub release page. Such image can be builtusing `make_container_binary.sh`,
+GitHub release page. Such image can be built using `make_container_binary.sh`,
 which fetches the latest versions of all the needed software:
 
 ~~~

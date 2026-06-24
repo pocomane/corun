@@ -89,7 +89,7 @@ container_run(){
   CONTROOT="$HOST_SCRIPT_DIR/$IMAGE_FS/"
 
   if [ "$#" -lt 1 ] ; then
-    set -- -- sh
+    set -- sh
   fi
   CMDSIZ="$#"
 
