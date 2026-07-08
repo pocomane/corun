@@ -87,10 +87,6 @@ container_run(){
   # Put in the CORUN_ATTACH environment variable a pid to attach to its container
 
   CONTROOT="$HOST_SCRIPT_DIR/$IMAGE_FS/"
-
-  if [ "$#" -lt 1 ] ; then
-    set -- sh
-  fi
   CMDSIZ="$#"
 
   #    note:
@@ -255,6 +251,7 @@ main(){
 container_prerun(){
 exec 3<<'EOF'
 #!/coresys/busybox sh
+
 # This can be used to do operations in container when entering
 # it, bofore running what requested from the command line.
 
@@ -275,10 +272,14 @@ set -e
 #   apk add binutils file gcc g++ make
 # fi
 
-# Run the command the user provided at command line. If you remove it
-# the command line will not be execute, so you can use it to run always
-# the same commands.
-exec "$@"
+# Run the command the user provided at command line, or the default shell if
+# missing. If you remove it the command line will not be execute, so you can
+# use it to run always the same commands.
+if [ "$#" -gt 0 ] ; then
+  exec "$@"
+else
+  exec sh
+fi
 
 EOF
 }
