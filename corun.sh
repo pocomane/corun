@@ -19,6 +19,7 @@ CORESYS_FOLDER="coresys" # At root of container filesystem
 IMAGE_MODE="${IMAGE_MODE:-release}" # supported values: release (default) or bootstrap (fallback)
 GUEST_PRERUN_PATH="/tmp/container_prerun.sh"
 GUEST_INITSCRIPT_PATH="/tmp/inittab_script.sh"
+GUEST_SHARE_PATH="./"
 
 # #############################################################################
 # Launcher utility
@@ -148,7 +149,7 @@ container_run(){
     --ro-bind /etc/hosts /etc/hosts \
     --ro-bind /etc/services /etc/services \
     \
-    --bind "./" "$CONT_WORK_DIR"
+    --bind "$GUEST_SHARE_PATH" "$CONT_WORK_DIR"
 
   # Set CORUN_KEEP_CHILD to anything to avoid the whole process subtree
   # to be killed when the main shell exit (useful with tmux, abduco, etc)
