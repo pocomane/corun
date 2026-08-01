@@ -27,13 +27,78 @@ curl -o - https://raw.githubusercontent.com/pocomane/corun/refs/heads/main/corun
 
 # Better environment
 
-At the end of the script, there is a section for commands to be executed before
-each run. This includes an example that downloads a minimal Alpine system
-during the first boot. If you enable this code, you can install packages
-directly from the Alpine repositories:
+At the end of the script, there is a section for commands to be executed inside
+the container right before each run. The default script does nothing useful,
+but you can use it to set up a better environment. For example, you can
+download an image of a distribution with a package manager that allows you
+to easily install additional software.
+
+For Alpine Linux, you can use something like this:
+
+~~~
+container_prerun(){
+exec 3<<'EOF'
+#!/coresys/busybox sh
+
+set -e
+
+DISTRO_IMAGE="http://dl-cdn.alpinelinux.org/alpine/v3.21/releases/x86_64/alpine-minirootfs-3.21.3-x86_64.tar.gz"
+
+if [ ! -f "/bin/sh" ]; then
+  mkdir -p /image-temp
+  cd /image-temp
+  wget -O - "$DISTRO_IMAGE" | tar -xzf -
+  cd -
+  cd /
+  yes n | cp -Ri image-temp/./ ./
+  rm -fR image-temp
+  cd -
+fi
+
+apk add binutils git
+
+exec "$@"
+
+EOF
+}
+~~~
+
+and then install additional software with
 
 ~~~
 ./corun.sh apk add my-needed-app
+~~~
+
+For Ubuntu:
+
+~~~
+container_prerun(){
+exec 3<<'EOF'
+
+set -e
+
+DISTRO_IMAGE="https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64-root.tar.xz"
+
+if [ ! -f "/bin/sh" ]; then
+  mkdir -p /image-temp
+  cd /image-temp
+  wget -O - "$DISTRO_IMAGE" | tar -xJf -
+  rm -fR dev proc sys run boot
+  cd -
+  cd /
+  yes n | cp -Ri image-temp/./ ./
+  rm -fR image-temp
+  cd -
+  echo 'APT::Sandbox::User "root";' > /etc/apt/apt.conf.d/99no-drop-privs
+fi
+
+apt-get update
+apt-get install -y binutils git
+
+exec "$@"
+
+EOF
+}
 ~~~
 
 # Command option

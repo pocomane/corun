@@ -256,24 +256,9 @@ container_prerun(){
 exec 3<<'EOF'
 #!/coresys/busybox sh
 # This can be used to do operations in container when entering
-# it, bofore running what requested from the command line.
+# it, before running what requested from the command line.
 
 set -e
-
-# # This is an example using the Alpine Linux repo
-# AUX_ALPINE_IMAGE="http://dl-cdn.alpinelinux.org/alpine/v3.21/releases/x86_64/alpine-minirootfs-3.21.3-x86_64.tar.gz"
-#
-# if [ ! -f "/bin/sh" ]; then
-#   mkdir -p /alpine-temp
-#   cd /alpine-temp
-#   wget -O - "$AUX_ALPINE_IMAGE" | tar -xzf -
-#   cd -
-#   cd /
-#   yes n | cp -Ri alpine-temp/./ ./
-#   rm -fR alpine-temp
-#   cd -
-#   apk add binutils file gcc g++ make
-# fi
 
 # Run the command the user provided at command line. If you remove it
 # the command line will not be execute, so you can use it to run always
