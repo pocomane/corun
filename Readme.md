@@ -57,7 +57,11 @@ fi
 
 apk add binutils git
 
-exec "$@"
+if [ "$#" -gt 0 ] ; then
+  exec "$@"
+else
+  exec sh
+fi
 
 EOF
 }
@@ -95,7 +99,11 @@ fi
 apt-get update
 apt-get install -y binutils git
 
-exec "$@"
+if [ "$#" -gt 0 ] ; then
+  exec "$@"
+else
+  exec sh
+fi
 
 EOF
 }
