@@ -100,7 +100,9 @@ container_run(){
   #      the container interact with the rest of the world.
   #    - we do not use --unshare-all because it will add --unshare-user. We need the
   #      same user namespace to let the host system allow to do stuff with the same privilages of
-  #      the caller user (e.g. if called by root, you can bind low port).
+  #      the caller user (e.g. if called by root, you can bind low port). For example
+  #      with --unshare-user there will be issues running as user a container created
+  #      as user.
   #
 
   if [ "$CORUN_EXTRA_BIND_SOURCE" != "" -a "$CORUN_EXTRA_BIND_DESTINATION" != "" ] ; then
@@ -166,8 +168,7 @@ container_run(){
     open_file_descriptor to_stdout FD_INFO
     set -- "$@" \
       --info-fd $FD_INFO \
-      --unshare-user \
-      --unshare-pid
+      --unshare-pid # --unshare-user
   else
     open_file_descriptor to_stdout FD_INFO
     open_file_descriptor from_file FD_PID /proc/"$CORUN_ATTACH"/ns/pid
