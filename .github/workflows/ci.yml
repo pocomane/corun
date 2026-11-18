@@ -15,12 +15,13 @@ jobs:
 
       - name: Build all
         run: |
-          chmod ugo+x make_container_binary.sh
-          mkdir -p cache/build/
-          touch cache/build/precontainer.built
-          ./make_container_binary.sh
-          touch cache/build/test.txt
-        shell: alpine.sh --root {0}
+          sudo sh -c '
+            chmod ugo+x make_container_binary.sh
+            mkdir -p cache/build/
+            touch cache/build/precontainer.built
+            ./make_container_binary.sh
+            touch cache/build/test.txt
+          '
         
       - name: Generate Tag
         id: generate_tag

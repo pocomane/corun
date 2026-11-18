@@ -130,6 +130,9 @@ spawn complex proces tree without the risk of accumulate defunct processes.
 Set CORUN_KEEP_CHILD to yes to avoid the whole process subtree to be killed
 when the main shell exit (useful with tmux, abduco, etc).
 
+If you want use an host command to run bwrap (instead of the downloaded onw)
+set the CORUN_BWRAP_COMMAND .
+
 # Compiling the Image
 
 By default, the busybox and bwrap binaries are downloaded from the project's

@@ -20,6 +20,7 @@ IMAGE_MODE="${IMAGE_MODE:-release}" # supported values: release (default) or boo
 GUEST_PRERUN_PATH="/tmp/container_prerun.sh"
 GUEST_INITSCRIPT_PATH="/tmp/inittab_script.sh"
 GUEST_SHARE_PATH="./"
+CORUN_BWRAP_COMMAND="${CORUN_BWRAP_COMMAND:-$HOST_SCRIPT_DIR/$IMAGE_FS/$CORESYS_FOLDER/bwrap}"
 
 # #############################################################################
 # Launcher utility
@@ -54,7 +55,7 @@ create_container_image_bootstrap(){
   rm -fR "$HOST_SCRIPT_DIR/$IMAGE_FS"/torem
 
   cd "$HOST_SCRIPT_DIR/$IMAGE_FS/$CORESYS_FOLDER"
-  ./bwrap --bind ../ / -- "/$CORESYS_FOLDER/busybox" --install -s "/$CORESYS_FOLDER/"
+  "$CORUN_BWRAP_COMMAND" --bind ../ / -- "/$CORESYS_FOLDER/busybox" --install -s "/$CORESYS_FOLDER/"
   cd -
 }
 
@@ -231,7 +232,7 @@ EOFFFFF
   fi
 
   # set -x
-  exec "$HOST_SCRIPT_DIR/$IMAGE_FS/$CORESYS_FOLDER"/bwrap "$@"
+  exec "$CORUN_BWRAP_COMMAND" "$@"
 }
 
 main(){
