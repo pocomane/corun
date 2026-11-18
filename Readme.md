@@ -130,6 +130,12 @@ spawn complex proces tree without the risk of accumulate defunct processes.
 Set CORUN_KEEP_CHILD to yes to avoid the whole process subtree to be killed
 when the main shell exit (useful with tmux, abduco, etc).
 
+Set CORUN_BWRAP_EXTRA to add extra flags to the bwrap command line.
+
+~~~
+CORUN_BWRAP_EXTRA="--unshare-pid --setenv FOO bar" ./corun.sh sh
+~~~
+
 If you want use an host command to run bwrap (instead of the downloaded onw)
 set the CORUN_BWRAP_COMMAND .
 

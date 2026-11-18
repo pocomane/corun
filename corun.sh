@@ -187,6 +187,11 @@ container_run(){
   set -- "$@" \
     --perms 0700 --bind-data 3 "$GUEST_PRERUN_PATH"
 
+  # Append user provided flags to the bwrap command
+  if [ "$CORUN_BWRAP_EXTRA" != "" ] ; then
+    set -- "$@" $CORUN_BWRAP_EXTRA
+  fi
+
   if [ "$CORUN_INIT" = "" ] ; then
     # Place original command at end of arguments as paramters of container_prerun
     set -- "$@" \
