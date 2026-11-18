@@ -1,3 +1,7 @@
+#!/bin/sh
+
+set -x
+set -e
 
 download(){
   wget --no-check-certificate -O "$1" "$2"
