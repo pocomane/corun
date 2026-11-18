@@ -15,7 +15,7 @@ make_all(){
   mkdir -p "$RELEASE_FOLDER"/
   
   PACKNAME="precontainer"
-  if [ ! -f "/bin/sh" -a ! -f "$DIR_BUILD/$PACKNAME.built" ]; then\
+  if [ -f "$DIR_BUILD/$PACKNAME.built" ]; then\
     mkdir -p "$DIR_BUILD/$PACKNAME"
     cd "$DIR_BUILD/$PACKNAME"
 
