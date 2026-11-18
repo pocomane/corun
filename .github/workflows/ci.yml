@@ -16,7 +16,7 @@ jobs:
             touch cache/build/precontainer.built
             ./make_container_binary.sh
             touch cache/build/test.txt
-          '
+          ' || false
         
       - name: Generate Tag
         id: generate_tag
