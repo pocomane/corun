@@ -8,11 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Setup latest Alpine Linux
-        uses: jirutka/setup-alpine@v1
-        with:
-          branch: v3.21
-
       - name: Build all
         run: |
           sudo sh -c '
