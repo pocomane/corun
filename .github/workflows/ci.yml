@@ -10,11 +10,11 @@ jobs:
       
       - name: Build all
         run: |
-          sudo sh -c '
+          sudo sh -x -e -c '
             chmod ugo+x make_container_binary.sh
             mkdir -p cache/build/
             touch cache/build/precontainer.built
-            ./make_container_binary.sh
+            IMAGE_MODE="bootstrap" ./corun.sh sh ./make_container_binary.sh
             touch cache/build/test.txt
           '
         

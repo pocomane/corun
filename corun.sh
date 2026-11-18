@@ -28,7 +28,7 @@ CORUN_BWRAP_COMMAND="${CORUN_BWRAP_COMMAND:-$HOST_SCRIPT_DIR/$IMAGE_FS/$CORESYS_
 AUX_RELEASE_IMAGE="https://github.com/pocomane/corun/releases/latest/download/container.tar.gz"
 AUX_BUSYBOX_BOOTSTRAP="https://dl-cdn.alpinelinux.org/alpine/v3.20/main/x86_64/busybox-static-1.36.1-r31.apk"
 AUX_BUSYBOX_SUBPATH="bin/busybox.static"
-AUX_BWRAP_BOOTSTRAP="https://dl-cdn.alpinelinux.org/alpine/edge/main/x86_64/bubblewrap-static-0.11.2-r0.apk"
+AUX_BWRAP_BOOTSTRAP="https://dl-cdn.alpinelinux.org/alpine/edge/main/x86_64/bubblewrap-static-0.13.1-r0.apk"
 AUX_BWRAP_SUBPATH="usr/bin/bwrap.static"
 
 download(){
